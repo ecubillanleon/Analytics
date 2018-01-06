@@ -1,0 +1,14 @@
+{
+  "name": "memes",
+  "version": "1.0.0",
+  "description": "the meme proyect for software engineer subject at zulia's university",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js"
+  },
+  "author": "Luis Oliva, Rafael Lozano, Enmanuel Cubillan, Ernesto Rincon",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "electron": "^1.7.9"
+  }
+}

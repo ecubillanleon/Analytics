@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Aplicacion M.E.M.E.S.</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<!-- Script de las redes sociales-->
+		<script src="assets/js/twitter.js"></script>
+		<script src="assets/js/youtube.js"></script>
+	</head>
+
+	<body>
+		<!-- Sidebar with the social networks-->
+		<section style="background-color: #000000" id="sidebar">
+			<div class="inner">
+				<nav>
+					<ul>
+						<li><a href="#intro">Bienvenido</a></li>
+						<li><a href="#youtube"><font color=red>Conecte YT</font></a></li>
+						<li><a href="#twitter"><font color=blue>Conecte Twitter</font></a></li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- main section -->
+		<div id="wrapper">
+			<!-- Landing Zone -->
+			<section id="intro" class="wrapper style1 fullscreen fade-up">
+				<div class="inner">
+					<h1>M.E.M.E.S.</h1>
+					<p>Bienvenido a la aplicacion de analisis de red social M.E.M.E.S.<br />
+					Esta aplicacion le permitira revisar de manera rapida sus redes sociales y <br>
+					ver su avance a traves del tiempo</p>
+
+					<ul class="actions">
+						<li><a href="#one" class="button scrolly">Learn more</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<!-- SECCION PARA YOUTUBE -->
+			<section id="youtube" style="background-color: #990000" class="wrapper style2 spotlights">
+				<div class="inner">
+					<h2>Acceda a su Canal de Youtube</h2>
+					
+					<div>
+						<section id="login_section">
+							<div class="row">
+								<div id="userLogin" class="field half first">
+									<label for="username">Nombre de Usuario de Youtube</label>
+									<input type="text" name="username" id="username" placeholder="@username" />
+								</div>
+							</div>
+
+							<p> 
+								<div id="stats_zone">
+									<!-- AQUI VA TODO EL MIERDERO DE LA CUENTA DE USUARIO-->
+								</div>
+							</p>
+
+							<ul class="actions">
+								<li><a id="loginYT" class="button" onclick="loginYoutube()">Loguearse</a></li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</section>
+
+			<!-- SECCION DE TWITTER-->
+			<section style="background-color:#1a75ff" id="twitter" class="wrapper style1 fade-up" >
+				<div class="inner">
+					<h2>Acceda a su cuenta de Twitter</h2>
+					<div >
+						<section>
+							<div class="field half first">
+								<label for="username">Correo o Nombre de usuario</label>
+								<input type="text" name="username" id="username" placeholder="@username" />
+							</div>
+							<br>
+
+							<div class="field half">
+								<label for="pass">Contraseña</label>
+								<input type="text" name="pass" id="pass" />
+							</div>
+
+							<br>
+							<ul class="actions">
+								<li><a href="" class="button submit" onclick="loginTwitter()">Loguearse</a></li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- Footer -->
+		<footer id="footer" class="wrapper style1-alt">
+			<div class="inner">
+				<ul class="menu">
+					<li>&copy; Licencia GPL 2.0</li>
+				</ul>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+  <header>
+    <meta charset="utf-8" />
+    <script src="assets/js/youtube.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script> 
+
+    <style>
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */  
+        -webkit-animation-name: fadeIn; /* Fade in the background */
+        -webkit-animation-duration: 0.4s;
+        animation-name: fadeIn;
+        animation-duration: 0.4s
+      }
+
+      /* Modal Content */
+      .modal-content {
+        position: fixed;
+        bottom: 0;
+        background-color: #fefefe;
+        width: 100%;
+        -webkit-animation-name: slideIn;
+        -webkit-animation-duration: 0.4s;
+        animation-name: slideIn;
+        animation-duration: 0.4s
+      }
+
+      /* The Close Button */
+      .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-header {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+      }
+
+      .modal-body {padding: 2px 16px;}
+
+      .modal-footer {
+        padding: 2px 16px;
+        background-color: #5cb85c;
+        color: white;
+      }
+
+      /* Add Animation */
+      @-webkit-keyframes slideIn {
+        from {bottom: -300px; opacity: 0} 
+        to {bottom: 0; opacity: 1}
+      }
+
+      @keyframes slideIn {
+        from {bottom: -300px; opacity: 0}
+        to {bottom: 0; opacity: 1}
+      }
+
+      @-webkit-keyframes fadeIn {
+        from {opacity: 0} 
+        to {opacity: 1}
+      }
+
+      @keyframes fadeIn {
+        from {opacity: 0} 
+        to {opacity: 1}
+      }
+    </style>
+  </header>
+
+  <body>
+    <h2>Bottom Modal</h2>
+
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">Open Modal</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          <h2>Modal Header</h2>
+        </div>
+
+        <div class="modal-body">
+          <p>YouTube Data API Quickstart</p>
+
+          <!--Add buttons to initiate auth sequence and sign out-->
+          <button id="authorize-button" style="display: none;">Authorize</button>
+          <button id="signout-button" style="display: none;">Sign Out</button>
+
+          <pre id="content"></pre>
+
+          <script type="text/javascript">
+            // Client ID and API key from the Developer Console
+            var CLIENT_ID = '194805490123-0bdvd9em63a8pvijjlehrbra50kaa222.apps.googleusercontent.com';
+
+            // Array of API discovery doc URLs for APIs used by the quickstart
+            var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest"];
+
+            // Authorization scopes required by the API. If using multiple scopes,
+            // separated them with spaces.
+            var SCOPES = 'https://www.googleapis.com/auth/youtube.readonly';
+
+            var authorizeButton = document.getElementById('authorize-button');
+            var signoutButton = document.getElementById('signout-button');
+
+            /**
+             *  On load, called to load the auth2 library and API client library.
+             */
+            function handleClientLoad() {
+              gapi.load('client:auth2', initClient);
+            }
+
+            // Every two seconds....
+            setInterval(function() {
+              // Send the message "Hello" to the parent window
+              // ...if the domain is still "davidwalsh.name"
+              parent.postMessage("Hello","http://localhost:8081/test.html");
+            },1000);
+
+            /**
+             *  Initializes the API client library and sets up sign-in state
+             *  listeners.
+             */
+            function initClient() {
+              gapi.client.init({
+                discoveryDocs: DISCOVERY_DOCS,
+                clientId: CLIENT_ID,
+                scope: SCOPES
+              }).then(function () {
+                // Listen for sign-in state changes.
+                gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+                // Handle the initial sign-in state.
+                updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+                authorizeButton.onclick = handleAuthClick;
+                signoutButton.onclick = handleSignoutClick;
+              });
+            }
+
+            /**
+             *  Called when the signed in status changes, to update the UI
+             *  appropriately. After a sign-in, the API is called.
+             */
+            function updateSigninStatus(isSignedIn) {
+              if (isSignedIn) {
+                authorizeButton.style.display = 'none';
+                signoutButton.style.display = 'block';
+                getChannel();
+              } else {
+                authorizeButton.style.display = 'block';
+                signoutButton.style.display = 'none';
+              }
+            }
+
+            /**
+             *  Sign in the user upon button click.
+             */
+            function handleAuthClick(event) {
+              gapi.auth2.getAuthInstance().signIn();
+            }
+
+            /**
+             *  Sign out the user upon button click.
+             */
+            function handleSignoutClick(event) {
+              gapi.auth2.getAuthInstance().signOut();
+            }
+
+            /**
+             * Append text to a pre element in the body, adding the given message
+             * to a text node in that element. Used to display info from API response.
+             *
+             * @param {string} message Text to be placed in pre element.
+             */
+            function appendPre(message) {
+              var pre = document.getElementById('content');
+              var textContent = document.createTextNode(message + '\n');
+              pre.appendChild(textContent);
+            }
+
+            /**
+             * Print files.
+             */
+            function getChannel() {
+              gapi.client.youtube.channels.list({
+                'part': 'snippet,contentDetails,statistics',
+                'forUsername': 'GoogleDevelopers'
+              }).then(function(response) {
+
+                //to clear the motherfucking DOM
+                //document.removeChild(document.documentElement);
+
+                var channel = response.result.items[0];
+                console.log("############33the channel is : ",channel);
+                var id = channel.id;
+                var title = channel.snippet.title;
+                var createDate = channel.snippet.publishedAt;
+                var desc = channel.snippet.description;
+                var urlThumbnail = channel.snippet.thumbnails.high.url;
+                var commentCount = channel.statistics.commentCount;
+                var subscribers = channel.statistics.subscriberCount;
+                var numberOfVideos = channel.statistics.videoCount;
+                var numberViews = channel.statistics.viewCount;
+                console.log("la url de la foto es : ",urlThumbnail);
+                
+              });
+            }
+          </script>
+
+          <script async defer src="https://apis.google.com/js/api.js"
+            onload="this.onload=function(){};handleClientLoad()"
+            onreadystatechange="if (this.readyState === 'complete') this.onload()">
+          </script>
+
+        </div>
+          <div class="modal-footer">
+            <h3>Modal Footer</h3>
+          </div>
+      </div>
+    </div>
+
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
+
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+
+      // When the user clicks the button, open the modal 
+      btn.onclick = function() {
+        modal.style.display = "block";
+      }
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+      }
+    </script>
+
+      <div class="row">
+        <label for="username"Nombre de usuario</label>
+        <input type="text" name="username" id="username" placeholder="@username" />
+      </div>
+        
+      <ul class="actions">
+        <li><a href="" class="button" onclick="loginYoutube()">Loguearse</a></li>
+      </ul>
+  </body>
+</html>

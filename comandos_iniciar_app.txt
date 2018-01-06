@@ -1,0 +1,10 @@
+Para iniciar el servidor en python debemos usar :
+
+python -m SimpleHTTPServer 8081
+
+y para iniciar la app debemos :
+
+npm start
+
+ambos en el directorio de la carpeta
+
